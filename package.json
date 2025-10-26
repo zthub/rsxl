@@ -1,0 +1,22 @@
+{
+  "name": "rstest2",
+  "version": "1.0.0",
+  "description": "一个基于uni-app框架开发的弱视训练网站，采用卡通风格设计，提供专业的视觉康复训练功能。",
+  "main": "main.js",
+  "scripts": {
+	"build": "npx @dcloudio/uni-app build --prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zthub/rsxl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/zthub/rsxl/issues"
+  },
+  "homepage": "https://github.com/zthub/rsxl#readme"
+}
