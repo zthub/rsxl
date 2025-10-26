@@ -1,0 +1,23 @@
+﻿﻿<?xml version="1.0" encoding="UTF-8"?>
+<items name="select shili">
+  <item name="0.0~0.1" url="00-01" />
+  <item name="0.2~0.4" url="02-04" />
+  <item name="0.5~0.6" url="05-06" />
+  <item name="0.7~0.9" url="07-09" />
+</items>
+<items name="ѡ�񱳾�">
+  <item name="���ι�դ" url="X"/>
+  <item name="���ǹ�դ" url="S"/>
+  <item name="Բ�ι�դ" url="Y"/>
+  <item name="б�߹�դ" url="J"/>
+  <item name="��״��դ" url="C"/>
+  <item name="���ι�դ" url="W"/>
+</items>
+<items name="select game">
+<item name="dafeidei" url="games/dfd.swf" />
+<item name="chidouzi" url="games/cdz.swf" />
+<item name="sheji" url="games/sj.swf" />
+<item name="huangjinkuanggong" url="games/hjkg.swf" />
+<item name="zhili" url="games/zl.swf" />
+<item name="miaoxian" url="games/mx.swf" />
+</items>
