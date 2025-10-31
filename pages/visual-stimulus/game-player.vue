@@ -6,7 +6,7 @@
       <text class="game-detail" v-show="showInstruction">{{ instruction }}</text>
     </view>
     <view class="webview-container">
-      <web-view :src="playerUrl" style="width:100%;height:100%;"></web-view>
+      <web-view :src="playerUrl" style="width:100%;height:100%"></web-view>
     </view>
   </view>
 </template>
@@ -46,8 +46,16 @@ export default {
       uni.setNavigationBarColor({ frontColor: '#ffffff', backgroundColor: '#FF6B6B' })
     } catch (e) {}
 
+    // 简易 PC 检测：默认 PC 端隐藏虚拟键盘；可通过 cfg.padAllowOnPc 例外
+    const ua = (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : ''
+    const isPc = !(/Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua))
+    const allowPcPad = !!(cfg && cfg.padAllowOnPc)
+    const shouldPassPad = (!isPc) || allowPcPad
+
+    const pad = (shouldPassPad && cfg && cfg.padRule) ? cfg.padRule : ''
+    const padShowVal = (shouldPassPad && cfg && Object.prototype.hasOwnProperty.call(cfg, 'padDefaultVisible')) ? (cfg.padDefaultVisible ? 1 : 0) : ''
     const base = '/static/swf-player/index.html'
-    const q = `?file=${encodeURIComponent(this.file)}${this.bg ? `&bg=${encodeURIComponent(this.bg)}` : ''}&v=${Date.now()}`
+    const q = `?file=${encodeURIComponent(this.file)}${this.bg ? `&bg=${encodeURIComponent(this.bg)}` : ''}${pad ? `&pad=${encodeURIComponent(pad)}` : ''}${padShowVal !== '' ? `&padShow=${padShowVal}` : ''}&v=${Date.now()}`
     this.playerUrl = base + q
   },
   methods: {

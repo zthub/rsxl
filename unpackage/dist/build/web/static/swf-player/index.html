@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SWF 播放器</title>
+  <script src="/static/swf-player/ruffle/ruffle.js"></script> 
+   <!-- <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>-->
+
+  <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = { scale: 'fit', letterbox: 'off', quality: 'best' };
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      const val = url.searchParams.get(name);
+      return val ? decodeURIComponent(val) : '';
+    }
+    async function swfExists(url) {
+      try {
+        const res = await fetch(url, { method: 'HEAD' });
+        return res.ok;
+      } catch (e) { return false; }
+    }
+    function isPC() {
+      const ua = navigator.userAgent;
+      return !(/Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua));
+    }
+    function keyCodeFor(key) {
+      switch (key) {
+        case 'ArrowLeft': return 37;
+        case 'ArrowUp': return 38;
+        case 'ArrowRight': return 39;
+        case 'ArrowDown': return 40;
+        case 'Enter': return 13;
+        case '1': return 49;
+        case '2': return 50;
+        case '3': return 51;
+        case '4': return 52;
+        default: return 0;
+      }
+    }
+    function dispatchKey(type, key, player) {
+      var keyCode = keyCodeFor(key);
+      var evt = new KeyboardEvent(type, { key: key, code: key, keyCode: keyCode, which: keyCode, bubbles: true });
+      try { Object.defineProperty(evt, 'keyCode', { get: function(){ return keyCode; } }); } catch(e){}
+      try { Object.defineProperty(evt, 'which', { get: function(){ return keyCode; } }); } catch(e){}
+      if (player) { player.dispatchEvent(evt); } else { document && document.dispatchEvent(evt); }
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+      const file = getParam('file');
+      const bg = getParam('bg');
+      const v = getParam('v');
+      const padRule = getParam('pad'); // 配置控制的虚拟键盘规则：'4' | '3' | '2' | 组合字母
+      const padShow = getParam('padShow'); // 虚拟键盘默认显示(1/true)或隐藏(0/false)
+      document.body.style.background = bg || '#111';
+      const swfPath = file && file.includes('/') ? file : `../swf/${file}`;
+      const swfUrl = `${swfPath}${v ? `?v=${v}` : ''}`;
+      const exists = file && await swfExists(swfUrl);
+      if (!exists) {
+        const msg = document.getElementById('missing-msg');
+        msg.innerText = `未找到对应的SWF文件：${file || '未提供文件名'}`;
+        msg.style.display = 'flex';
+        return;
+      }
+      const r = window.RufflePlayer?.newest();
+      if (!r) return;
+      const player = r.createPlayer();
+      player.style.width = '100%';
+      player.style.height = '100%';
+      document.getElementById('player').appendChild(player);
+      player.load(swfUrl);
+      // 虚拟方向键初始化（非PC且存在padRule时显示）
+      const pad = document.getElementById('virtual-pad');
+      if (padRule) {
+        var showDefault = padShow ? ((padShow === '1') || (String(padShow).toLowerCase() === 'true')) : true;
+        pad.style.display = showDefault ? 'grid' : 'none';
+        pad.style.gridTemplateRows = 'auto auto';
+        // 解析 padRule：支持 '4'|'3'|'2' 以及由字母组成的集合，如 'lrd'、'lr'、'ud'，以及数字键 '1234' 和回车 'e'
+        function parsePad(rule) {
+          if (!rule) return [];
+          var r = String(rule).toLowerCase();
+          var letterMap = { l: 'ArrowLeft', r: 'ArrowRight', u: 'ArrowUp', d: 'ArrowDown', e: 'Enter' };
+          if (/^[lrude]+$/.test(r)) {
+            var arr = []; for (var i = 0; i < r.length; i++) { var ch = r.charAt(i); if (letterMap[ch]) arr.push(letterMap[ch]); }
+            return arr;
+          }
+          if (/^[1234]+$/.test(r)) {
+            var nums = []; for (var j = 0; j < r.length; j++) { var dj = r.charAt(j); if (/[1-4]/.test(dj)) nums.push(dj); }
+            return nums;
+          }
+          switch (r) {
+            case '4': return ['ArrowUp','ArrowLeft','ArrowDown','ArrowRight'];
+            case '3': return ['ArrowLeft','ArrowRight','ArrowDown']; // 默认三键为 左、右、下
+            case '2': return ['ArrowLeft','ArrowRight'];
+            default: return [];
+          }
+        }
+        var keys = parsePad(padRule);
+        if (!keys.length) { pad.style.display = 'none'; return; }
+        var has = function(k){ return keys.indexOf(k) >= 0; };
+        var udOnly = has('ArrowUp') && has('ArrowDown') && !has('ArrowLeft') && !has('ArrowRight') && !has('Enter');
+        var numOnly = keys.every(function(k){ return ['1','2','3','4'].indexOf(k) >= 0; });
+        pad.style.gridTemplateRows = (udOnly || numOnly) ? 'auto' : 'auto auto';
+        pad.innerHTML = numOnly
+          ? '<div class="pad-row">\n' +
+              '<div class="pad-btn" data-key="1">1</div>' +
+              '<div class="pad-btn" data-key="2">2</div>' +
+              '<div class="pad-btn" data-key="3">3</div>' +
+              '<div class="pad-btn" data-key="4">4</div>' +
+            '</div>'
+          : (udOnly
+            ? '<div class="pad-row"><div class="pad-btn" data-key="ArrowUp">↑</div><div class="pad-btn" data-key="ArrowDown">↓</div></div>'
+            : (has('ArrowUp') ? '<div class="pad-row"><div class="pad-btn" data-key="ArrowUp">↑</div></div>' : '') +
+              '<div class="pad-row">' +
+              (has('ArrowLeft') ? '<div class="pad-btn" data-key="ArrowLeft">←</div>' : '') +
+              (has('ArrowDown') ? '<div class="pad-btn" data-key="ArrowDown">↓</div>' : '') +
+              (has('ArrowRight') ? '<div class="pad-btn" data-key="ArrowRight">→</div>' : '') +
+              (has('Enter') ? '<div class="pad-btn" data-key="Enter">↵</div>' : '') +
+              '</div>'
+            );
+        // 创建显示/隐藏切换按钮（非PC且存在padRule）
+        var toggle = document.getElementById('pad-toggle');
+        if (!toggle) {
+          toggle = document.createElement('div');
+          toggle.id = 'pad-toggle';
+          toggle.className = 'pad-toggle';
+          toggle.setAttribute('data-on', showDefault ? '1' : '0');
+          toggle.innerText = showDefault ? '隐藏键盘' : '显示键盘';
+          pad.parentElement.appendChild(toggle);
+        }
+        function updateToggleLabel() {
+          var vis = pad.style.display !== 'none';
+          toggle.setAttribute('data-on', vis ? '1' : '0');
+          toggle.innerText = vis ? '隐藏键盘' : '显示键盘';
+        }
+        toggle.addEventListener('click', function(e){
+          if (e) { e.preventDefault && e.preventDefault(); e.stopPropagation && e.stopPropagation(); }
+          var vis = pad.style.display !== 'none';
+          pad.style.display = vis ? 'none' : 'grid';
+          updateToggleLabel();
+        });
+        try { player.focus && player.focus(); } catch(e){}
+        const target = player; // 将键盘事件分发到 Ruffle 播放器元素
+        const activeIntervals = new Map();
+        const pressTimers = new Map();
+        const autoReleaseTimers = new Map();
+        const pressedKeys = new Set();
+        const pressStartTimes = new Map();
+        // 全屏兼容：进入全屏时将虚拟键移入全屏元素，退出时移回
+        var padOriginalParent = pad.parentElement;
+        function handleFullscreenChange(){
+          var fe = document.fullscreenElement || document.webkitFullscreenElement;
+          var container = null;
+          if (fe) {
+            try {
+              container = (player && player.shadowRoot) ? player.shadowRoot : fe;
+              // 若在 Shadow DOM 中，需注入样式以保障虚拟键及切换按钮可见
+              if (container === player.shadowRoot) {
+                if (!container.querySelector('#pad-shadow-style')) {
+                  var styleEl = document.createElement('style');
+                  styleEl.id = 'pad-shadow-style';
+                  styleEl.textContent = '.virtual-pad{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:2147483647;display:grid;gap:12px;} .pad-row{display:flex;justify-content:center;gap:12px;} .pad-btn{width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,0.6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;user-select:none;touch-action:manipulation;box-shadow:0 4px 12px rgba(0,0,0,0.25);} .pad-btn:active{background:rgba(0,0,0,0.8);} .pad-toggle{position:fixed;right:20px;bottom:20px;z-index:2147483647;background:rgba(0,0,0,0.6);color:#fff;padding:8px 12px;border-radius:999px;font-size:14px;user-select:none;touch-action:manipulation;box-shadow:0 4px 12px rgba(0,0,0,0.25);} .pad-toggle:active{background:rgba(0,0,0,0.8);}';
+                  container.appendChild(styleEl);
+                }
+              }
+              container.appendChild(pad);
+              // 同步移动切换按钮到全屏容器
+              var toggleEl = document.getElementById('pad-toggle');
+              if (toggleEl) { container.appendChild(toggleEl); }
+              // 全屏时使用固定定位确保相对屏幕定位
+              pad.style.position = 'fixed';
+              pad.style.zIndex = '2147483647';
+              pad.style.pointerEvents = 'auto';
+              if (toggleEl) {
+                toggleEl.style.position = 'fixed';
+                toggleEl.style.zIndex = '2147483647';
+                toggleEl.style.pointerEvents = 'auto';
+              }
+            } catch(e){}
+          } else {
+            try {
+              padOriginalParent && padOriginalParent.appendChild(pad);
+              // 退出全屏时切回原容器并恢复层级
+              var toggleEl2 = document.getElementById('pad-toggle');
+              if (toggleEl2 && padOriginalParent) { padOriginalParent.appendChild(toggleEl2); }
+              pad.style.position = 'fixed';
+              pad.style.zIndex = '9999';
+              pad.style.pointerEvents = 'auto';
+              if (toggleEl2) {
+                toggleEl2.style.position = 'fixed';
+                toggleEl2.style.zIndex = '9999';
+                toggleEl2.style.pointerEvents = 'auto';
+              }
+            } catch(e){}
+          }
+        }
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        // 同时监听宿主元素，提升兼容性
+        player.addEventListener && player.addEventListener('fullscreenchange', handleFullscreenChange);
+        player.addEventListener && player.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        // 初始化一次，若已在全屏中
+        handleFullscreenChange();
+        function startKey(key) {
+          // 如已按下则忽略，避免重复触发造成一次跳多格
+          if (pressedKeys.has(key)) { return; }
+          pressedKeys.add(key);
+          pressStartTimes.set(key, Date.now());
+          try { player && player.focus && player.focus(); } catch(e){}
+          // 立即触发一次（单击只触发一次）
+          dispatchKey('keydown', key, target);
+          // 数字键不需要连续触发
+          var isNumericKey = /^[1-4]$/.test(key);
+          if (!isNumericKey) {
+            const repeatMs = (function(rule){ var r = String(rule||'').toLowerCase(); return (r==='2'||r==='lr') ? 90 : 120; })(padRule);
+            const t = setTimeout(function(){
+              if (!pressedKeys.has(key)) return;
+              if (activeIntervals.has(key)) return;
+              const id = setInterval(function(){ dispatchKey('keydown', key, target); }, repeatMs);
+              activeIntervals.set(key, id);
+            }, 300);
+            pressTimers.set(key, t);
+          }
+          // 兜底：若未收到结束事件（某些设备/浏览器偶发），自动释放，避免进入不可点击状态
+          const auto = setTimeout(function(){
+            if (pressedKeys.has(key) && !activeIntervals.has(key)) { endKey(key); }
+          }, isNumericKey ? 200 : 700);
+          autoReleaseTimers.set(key, auto);
+        }
+        function endKey(key) {
+          const t = pressTimers.get(key);
+          if (t) { clearTimeout(t); pressTimers.delete(key); }
+          const auto = autoReleaseTimers.get(key);
+          if (auto) { clearTimeout(auto); autoReleaseTimers.delete(key); }
+          const id = activeIntervals.get(key);
+          if (id) { clearInterval(id); activeIntervals.delete(key); }
+          if (pressedKeys.has(key)) {
+            pressedKeys.delete(key);
+            pressStartTimes.delete(key);
+            dispatchKey('keyup', key, target);
+          }
+        }
+        const btns = pad.querySelectorAll('.pad-btn');
+        var lastInputWasTouch = false;
+        var resetTouchFlagTimer = null;
+        btns.forEach(function(btn){
+          var key = btn.dataset.key;
+          var startTouch = function(e){
+            if (e) { e.preventDefault && e.preventDefault(); e.stopPropagation && e.stopPropagation(); }
+            lastInputWasTouch = true;
+            if (resetTouchFlagTimer) { clearTimeout(resetTouchFlagTimer); }
+            resetTouchFlagTimer = setTimeout(function(){ lastInputWasTouch = false; }, 500);
+            startKey(key);
+          };
+          var startMouse = function(e){
+            if (e) { e.preventDefault && e.preventDefault(); e.stopPropagation && e.stopPropagation(); }
+            if (lastInputWasTouch) return;
+            startKey(key);
+          };
+          var end = function(e){
+            if (e) { e.preventDefault && e.preventDefault(); e.stopPropagation && e.stopPropagation(); }
+            endKey(key);
+          };
+          btn.addEventListener('touchstart', startTouch, { passive: false });
+          btn.addEventListener('touchend', end, { passive: false });
+          btn.addEventListener('touchcancel', end, { passive: false });
+          btn.addEventListener('mousedown', startMouse);
+          btn.addEventListener('mouseup', end);
+          btn.addEventListener('mouseleave', end);
+        });
+      }
+    });
+  </script>
+  <style>
+    html, body { height: 100%; }
+    body { margin: 0; }
+    #player { width: 100%; height: 100vh; }
+    /* 虚拟键盘容器 */
+    .virtual-pad {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: grid;
+      gap: 12px;
+      pointer-events: auto;
+    }
+    .pad-row { display: flex; justify-content: center; gap: 12px; }
+    .pad-btn {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(0,0,0,0.6); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      user-select: none;
+      touch-action: manipulation;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .pad-btn:active { background: rgba(0,0,0,0.8); }
+    /* 切换开关 */
+    .pad-toggle {
+      position: fixed;
+      right: 20px; bottom: 20px;
+      z-index: 9999;
+      background: rgba(0,0,0,0.6); color: #fff;
+      padding: 8px 12px; border-radius: 999px;
+      font-size: 14px;
+      user-select: none;
+      touch-action: manipulation;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .pad-toggle:active { background: rgba(0,0,0,0.8); }
+  </style>
+</head>
+<body>
+  <div id="player"></div>
+  <div id="virtual-pad" class="virtual-pad" style="display:none"></div>
+  <div id="missing-msg" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;color:#fff;font-size:16px;">SWF文件未找到</div>
+</body>
+</html>

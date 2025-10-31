@@ -1,11 +1,11 @@
 <template>
-  <page-meta page-style="overflow:hidden;"></page-meta>
+  
   <view class="page">
     <view class="instruction-bar">
       <text class="game-detail">{{ instruction }}</text>
     </view>
     <view class="webview-container">
-      <web-view :src="playerUrl" style="width:100%;height:100%;"></web-view>
+      <web-view :src="playerUrl" style="width:100%;height:100%"></web-view>
     </view>
   </view>
 </template>
@@ -33,7 +33,15 @@ export default {
       uni.setNavigationBarColor({ frontColor: '#ffffff', backgroundColor: '#45B7D1' })
     } catch (e) {}
     const base = '/static/swf-player/index.html'
-    const q = `?file=${encodeURIComponent(this.file)}${this.bg ? `&bg=${encodeURIComponent(this.bg)}` : ''}&v=${Date.now()}`
+    // 简易 PC 检测：H5 下使用 UA 判断；默认 PC 端隐藏虚拟键盘
+    const ua = (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : ''
+    const isPc = !(/Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua))
+    // 允许通过配置例外显示：cfg.padAllowOnPc === true
+    const allowPcPad = !!(cfg && cfg.padAllowOnPc)
+    const shouldPassPad = (!isPc) || allowPcPad
+    const pad = (shouldPassPad && cfg && cfg.padRule) ? `&pad=${encodeURIComponent(cfg.padRule)}` : ''
+    const padShow = (shouldPassPad && cfg && typeof cfg.padDefaultVisible !== 'undefined') ? `&padShow=${cfg.padDefaultVisible ? 1 : 0}` : ''
+    const q = `?file=${encodeURIComponent(this.file)}${this.bg ? `&bg=${encodeURIComponent(this.bg)}` : ''}${pad}${padShow}&v=${Date.now()}`
     this.playerUrl = base + q
   },
   onBackPress() {

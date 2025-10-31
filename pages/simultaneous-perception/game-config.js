@@ -5,9 +5,11 @@ export const simultaneousGames = {
     title: '百步穿杨',
     emoji: '🏹',
     desc: '咱们到外面练箭去，你能一箭双雕吗！',
-    instruction: '使用说明：弓箭会跟着鼠标移而改变方向，点击左键进行发射......',
+    instruction: '使用说明：弓箭会跟着鼠标移而改变方向，点击回车键进行发射......',
     file: '百步穿杨.swf',
-    bg: 'linear-gradient(135deg, #45B7D1, #6BC5D8)'
+    bg: 'linear-gradient(135deg, #45B7D1, #6BC5D8)',
+    padRule: 'lre', // 左右方向键 + 回车键
+    padDefaultVisible: true // 非PC端默认显示
   },
   '捕蝴蝶': {
     id: '捕蝴蝶',
@@ -43,7 +45,9 @@ export const simultaneousGames = {
     desc: '一款很老的小游戏，爸爸小时玩过的......',
     instruction: '使用说明：←左移→右移↑变换↓坠底',
     file: '俄罗斯方块.swf',
-    bg: 'linear-gradient(135deg, #6a5acd, #483d8b)'
+    bg: 'linear-gradient(135deg, #6a5acd, #483d8b)',
+    padRule: '4', // 非PC设备：显示 上/左/下/右 四方向键
+    padDefaultVisible: true // 虚拟键盘首次加载默认显示（可在播放器中切换隐藏/显示）
   },
   '交通安全': {
     id: '交通安全',
@@ -70,7 +74,9 @@ export const simultaneousGames = {
     desc: '戴上红绿眼镜咱们玩玩小游戏......',
     instruction: '使用说明：←左移 →右移 ↑上移 ↓下移，来改变贪食蛇的方向。',
     file: '贪食蛇.swf',
-    bg: 'linear-gradient(135deg, #45B7D1, #6BC5D8)'
+    bg: 'linear-gradient(135deg, #45B7D1, #6BC5D8)',
+    padRule: '4',
+    padDefaultVisible: true
   },
   '天降财源': {
     id: '天降财源',

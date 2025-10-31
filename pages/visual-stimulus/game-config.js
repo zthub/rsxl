@@ -7,7 +7,10 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打飞碟
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏，再选择视力
+打飞碟
 准备好了么！准备开枪...
 使用说明:枪口会跟着鼠标移动，点击左键进行射击...注意，选择相应的视力
 
@@ -21,7 +24,13 @@ export const visualStimulusGames = {
 
 黄金矿工
 多抓些钻石，别让老爷爷累着！
-使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力`,
+使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力
+
+智力
+使用说明:选择计算的结果
+
+描线
+使用说明:根据图形进行描线`,
     file: '方格对角光栅.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -32,7 +41,10 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打飞碟
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏，再选择视力
+打飞碟
 准备好了么！准备开枪...
 使用说明:枪口会跟着鼠标移动，点击左键进行射击...注意，选择相应的视力
 
@@ -46,7 +58,13 @@ export const visualStimulusGames = {
 
 黄金矿工
 多抓些钻石，别让老爷爷累着！
-使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力`,
+使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力
+
+智力
+使用说明:选择计算的结果
+
+描线
+使用说明:根据图形进行描线`,
     file: '方格光栅.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -57,7 +75,11 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打飞碟
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `
+先选择游戏，再选择视力
+打飞碟
 准备好了么！准备开枪...
 使用说明:枪口会跟着鼠标移动，点击左键进行射击...注意，选择相应的视力
 
@@ -71,7 +93,14 @@ export const visualStimulusGames = {
 
 黄金矿工
 多抓些钻石，别让老爷爷累着！
-使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力`,
+使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力
+
+智力
+使用说明:选择计算的结果
+
+描线
+使用说明:根据图形进行描线
+`,
     file: '链条光栅.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -82,7 +111,10 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打飞碟
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏，再选择视力
+打飞碟
 准备好了么！准备开枪...
 使用说明:枪口会跟着鼠标移动，点击左键进行射击...注意，选择相应的视力
 
@@ -96,7 +128,13 @@ export const visualStimulusGames = {
 
 黄金矿工
 多抓些钻石，别让老爷爷累着！
-使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力`,
+使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力
+
+智力
+使用说明:选择计算的结果
+
+描线
+使用说明:根据图形进行描线`,
     file: '三角光栅.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -107,7 +145,10 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打飞碟
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏，再选择视力
+打飞碟
 准备好了么！准备开枪...
 使用说明:枪口会跟着鼠标移动，点击左键进行射击...注意，选择相应的视力
 
@@ -121,7 +162,13 @@ export const visualStimulusGames = {
 
 黄金矿工
 多抓些钻石，别让老爷爷累着！
-使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力`,
+使用说明:根据抓勾瞄准目标，点击老爷爷进行抓黄金...注意，选择相应的视力
+
+智力
+使用说明:选择计算的结果
+
+描线
+使用说明:根据图形进行描线`,
     file: '圆形光栅.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -132,7 +179,10 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
 使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
     file: '红光闪烁增视1.swf',
@@ -145,7 +195,9 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    longInstruction: `
+    先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
 使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
     file: '红光闪烁增视2.swf',
@@ -158,7 +210,10 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
 使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
     file: '红光闪烁增视3.swf',
@@ -171,9 +226,18 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `
+先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
-使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
+使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力
+
+俄罗斯方块
+一款很老的小游戏，爸爸小时玩过的......
+使用说明:使用说明：←左移→右移↑变换↓坠底
+`,
     file: 'VEP三色双重增视1.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -184,9 +248,16 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
-使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
+使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力
+
+俄罗斯方块
+一款很老的小游戏，爸爸小时玩过的......
+使用说明:使用说明：←左移→右移↑变换↓坠底`,
     file: 'VEP三色双重增视2.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -197,9 +268,16 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
-使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
+使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力
+
+俄罗斯方块
+一款很老的小游戏，爸爸小时玩过的......
+使用说明:使用说明：←左移→右移↑变换↓坠底`,
     file: 'VEP三色双重增视3.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -210,9 +288,20 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
-使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
+使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力
+
+俄罗斯方块
+一款很老的小游戏，爸爸小时玩过的......
+使用说明:使用说明：←左移→右移↑变换↓坠底
+
+随机点
+随机点是一种视觉刺激，通过随机出现的点来训练视觉灵敏度。
+`,
     file: '三色刺激增视1.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -223,9 +312,19 @@ export const visualStimulusGames = {
     desc: '',
     instruction: '',
     instructionToggle: true,
-    longInstruction: `打兔子
+    padRule: '4',
+    padDefaultVisible: false,
+    longInstruction: `先选择游戏
+打兔子
 好多小兔子，准备好锤子没...
-使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力`,
+使用说明:锤子会跟着鼠标移动，点击左键进行打击...注意，选择相应的视力
+
+俄罗斯方块
+一款很老的小游戏，爸爸小时玩过的......
+使用说明:使用说明：←左移→右移↑变换↓坠底
+
+随机点
+随机点是一种视觉刺激，通过随机出现的点来训练视觉灵敏度。`,
     file: '三色刺激增视2.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -235,6 +334,16 @@ export const visualStimulusGames = {
     emoji: '🎵',
     desc: '',
     instruction: '',
+    instructionToggle: true,
+    longInstruction: `先选择游戏
+打小鸟
+
+接财宝
+
+打巫婆
+
+虫虫危机
+`,
     file: '漫天飞舞之C调.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -244,6 +353,16 @@ export const visualStimulusGames = {
     emoji: '🎵',
     desc: '',
     instruction: '',
+    instructionToggle: true,
+    longInstruction: `先选择游戏
+打小鸟
+
+接财宝
+
+打巫婆
+
+虫虫危机
+`,
     file: '漫天飞舞之E调.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   },
@@ -253,9 +372,6 @@ export const visualStimulusGames = {
     emoji: '🌓',
     desc: '',
     instruction: '',
-    instructionToggle: true,
-    longInstruction: `视觉刺激
-视觉刺激为弱视治疗中常规训练，弱视眼对红光，黑白光栅比较敏感，通过不停变化的图形，红光，光栅目的在于对矫正后弱视眼视网膜上的视细胞不断地光刺激，使其功能逐渐恢复，从而提高视力...`,
     file: '对比敏感度.swf',
     bg: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)'
   }

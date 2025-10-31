@@ -7,7 +7,9 @@ export const stereoGames = {
     desc: '秋天到了，院子里的苹果又红又大，有的已经开始向下掉了，你的篮子准备好没有？',
     instruction: '使用说明:通过← → 就可以移动篮子了，注意，接到苹果才有分哦！',
     file: '接水果.swf',
-    bg: 'linear-gradient(135deg, #FFEAA7, #FFF0C2)'
+    bg: 'linear-gradient(135deg, #FFEAA7, #FFF0C2)',
+    padRule: 'lr',
+    padDefaultVisible: true
   },
   '连连看': {
     id: '连连看',
